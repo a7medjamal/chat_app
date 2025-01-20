@@ -1,3 +1,4 @@
+import 'package:chat_app/views/login_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,7 +11,7 @@ class ChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(),
+      home: LoginView(),
     );
   }
 }
