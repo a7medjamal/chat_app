@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously, must_be_immutable, unused_local_variable
+
 import 'package:chat_app/core/constants.dart';
+import 'package:chat_app/utils/snackbar.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
-
+  LoginView({super.key});
+  String? email;
+  String? password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,18 +55,38 @@ class LoginView extends StatelessWidget {
                 ),
                 CustomTextField(
                   hintText: 'Email',
+                  onChanged: (value) {
+                    email = value;
+                  },
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 CustomTextField(
                   hintText: 'Password',
+                  onChanged: (value) {
+                    password = value;
+                  },
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 CustomButton(
                   text: 'Login',
+                  onTap: () async {
+                    try {
+                      await signIn();
+                      showSnackBar(context, 'Signed in successfully!');
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        showSnackBar(context, 'User not found!');
+                      } else if (e.code == 'wrong-password') {
+                        showSnackBar(context, 'Wrong password!');
+                      }
+                    } catch (e) {
+                      showSnackBar(context, 'Error: $e');
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 20,
@@ -96,5 +121,10 @@ class LoginView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> signIn() async {
+    UserCredential credential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email!, password: password!);
   }
 }

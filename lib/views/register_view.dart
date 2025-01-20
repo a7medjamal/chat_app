@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously, must_be_immutable, unused_local_variable
+
 import 'package:chat_app/core/constants.dart';
+import 'package:chat_app/utils/snackbar.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatelessWidget {
-  const RegisterView({super.key});
-
+  String? email;
+  String? password;
+  RegisterView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +53,18 @@ class RegisterView extends StatelessWidget {
                 ),
                 CustomTextField(
                   hintText: 'Email',
+                  onChanged: (data) {
+                    email = data;
+                  },
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 CustomTextField(
                   hintText: 'Password',
+                  onChanged: (data) {
+                    password = data;
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -66,6 +77,16 @@ class RegisterView extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'Register',
+                  onTap: () async {
+                    try {
+                      await registerUser();
+                      showSnackBar(context, 'User Registered');
+                    } on FirebaseAuthException catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(e.toString()),
+                      ));
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 20,
@@ -100,5 +121,10 @@ class RegisterView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> registerUser() async {
+    UserCredential credential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email!, password: password!);
   }
 }
