@@ -1,10 +1,9 @@
-import 'package:chat_app/views/register_view.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class LoginView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Sign in',
+                  'Register',
                   style: TextStyle(
                     fontSize: 24,
                     color: Colors.white,
@@ -53,38 +52,19 @@ class LoginView extends StatelessWidget {
               hintText: 'Password',
             ),
             SizedBox(
+              height: 10,
+            ),
+            CustomTextField(
+              hintText: 'Confirm Password',
+            ),
+            SizedBox(
               height: 30,
             ),
             CustomButton(
-              text: 'Login',
+              text: 'Register',
             ),
             SizedBox(
               height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don\'t have an account? ',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => RegisterView())),
-                  },
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
