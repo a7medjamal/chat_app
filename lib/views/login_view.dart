@@ -1,4 +1,3 @@
-import 'package:chat_app/views/register_view.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -73,8 +72,7 @@ class LoginView extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () => {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => RegisterView())),
+                    Navigator.pushNamed(context, '/register'),
                   },
                   child: Text(
                     'Register',
